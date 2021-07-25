@@ -4,7 +4,7 @@ import ColorForm from "./components/ColorForm";
 import BoxDisplay from "./components/BoxDisplay";
 
 function App() {
-  const [Box, setBox] = useState("");
+  const [Box, setBox] = useState([]);
     
   const createnewBox = ( newBox ) => {
       setBox( [...Box,newBox]);

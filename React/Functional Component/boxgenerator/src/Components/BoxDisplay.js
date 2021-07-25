@@ -7,7 +7,8 @@ export const BoxDisplay = (props) => {
         <div key={i} style = {{ backgroundColor:value,
             width:'100px',
             height:'100px',
-            }}>{value}</div>
+            margin:'10px',
+            }}></div>
         )
 }
          
