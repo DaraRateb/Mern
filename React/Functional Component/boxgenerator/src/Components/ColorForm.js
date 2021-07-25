@@ -1,17 +1,18 @@
-import React,{useState} from 'react'
+import React,{useState} from 'react';
 
-export const ColorForm = () => {
-    const [color, setColor] = useState("");
+const ColorForm = (props) => {
+    const [clr, setClr] = useState("");
     
     const handleSubmit = (e) => {
         e.preventDefault();
+        props.onSend(clr);
         
     };
     return (
         <form onSubmit={ handleSubmit }>
          <div>
                 <label>Color: </label> 
-                <input type="text" onChange={ (e) => setColor(e.target.value) } />
+                <input type="text" onChange={ (e) => setClr(e.target.value)}/>
             </div>
         <input type="submit" value="Add" />
     </form>
