@@ -15,8 +15,8 @@ const Show = (props) => {
         <h1>{props.results.name}</h1>
         <p>Height: {props.results.height}</p>
         <p>Mass: {props.results.mass}</p>
-        <p>Hair Color:{props.results.hair_color}</p>
-        <p>Skin Color{props.results.skin_color}</p>
+        <p>Hair Color: {props.results.hair_color}</p>
+        <p>Skin Color: {props.results.skin_color}</p>
         </div>
         
     
