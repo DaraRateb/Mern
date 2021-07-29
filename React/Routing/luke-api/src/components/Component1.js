@@ -8,12 +8,12 @@ const Component1 = (props) => {
     
     
     useEffect(() => {
-        console.log(props.typeVal)
+        // console.log(props.typeVal)
         axios.get("https://swapi.dev/api/"+props.typeVal+"/"+props.cmpId).then(resopnse=>{
         console.log(resopnse.data);
         setData(resopnse.data);
     })
-    }, [props.typeVal,props.cmpId]);
+    }, [props.typeVal,props.cmpId]);//why warning? when i props.typeval is mentioned i can't retrieve data by changing the id only
     
 
     return (

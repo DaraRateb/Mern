@@ -1,0 +1,189 @@
+Microsoft Windows [Version 10.0.19042.1110]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Program Files\MongoDB\Server\5.0\bin>mongo.exe
+MongoDB shell version v5.0.1
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("e3a69354-ec85-4e3e-a34c-cba260379e83") }
+MongoDB server version: 5.0.1
+================
+Warning: the "mongo" shell has been superseded by "mongosh",
+which delivers improved usability and compatibility.The "mongo" shell has been deprecated and will be removed in
+an upcoming release.
+We recommend you begin using "mongosh".
+For installation instructions, see
+https://docs.mongodb.com/mongodb-shell/install/
+================
+---
+The server generated these startup warnings when booting:
+        2021-07-28T00:05:34.013+03:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+---
+---
+        Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+        metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+        The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+        and anyone you share the URL with. MongoDB may use this information to make product
+        improvements and to suggest MongoDB products and deployment options to you.
+
+        To enable free monitoring, run the following command: db.enableFreeMonitoring()
+        To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+> show dbs
+admin        0.000GB
+config       0.000GB
+local        0.000GB
+my_first_db  0.000GB
+> show collections
+> db.students.find()
+> use my_first_db
+switched to db my_first_db
+> show collections
+my_first_db
+students
+> db.students.find
+function(query, fields, limit, skip, batchSize, options) {
+    var cursor = new DBQuery(this._mongo,
+                             this._db,
+                             this,
+                             this._fullName,
+                             this._massageObject(query),
+                             fields,
+                             limit,
+                             skip,
+                             batchSize,
+                             options || this.getQueryOptions());
+
+    {
+        const session = this.getDB().getSession();
+
+        const readPreference = session._getSessionAwareClient().getReadPreference(session);
+        if (readPreference !== null) {
+            cursor.readPref(readPreference.mode, readPreference.tags);
+        }
+
+        const client = session._getSessionAwareClient();
+        const readConcern = client.getReadConcern(session);
+        if (readConcern !== null &&
+            client.canUseReadConcern(session, cursor._convertToCommand(true))) {
+            cursor.readConcern(readConcern.level);
+        }
+    }
+
+    return cursor;
+}
+> db.students.find()
+{ "_id" : ObjectId("610118009124d5688dae1d4e"), "name" : "Dara", "home_state" : "Ramallah", "lucky_number" : 10, "birthday" : { "month" : 3, "day" : 22, "year" : 2000 } }
+{ "_id" : ObjectId("61011a961d5059b97dca24cc"), "name" : "Hala", "home_state" : "Ramallah", "lucky_number" : 6, "birthday" : { "month" : 6, "day" : 28, "year" : 1994 } }
+{ "_id" : ObjectId("61011ae51d5059b97dca24cd"), "name" : "Malik", "home_state" : "Ramallah", "lucky_number" : 12, "birthday" : { "month" : 12, "day" : 21, "year" : 1991 } }
+{ "_id" : ObjectId("61011b701d5059b97dca24ce"), "name" : "Muhammad", "home_state" : "Jerusalem", "lucky_number" : 4, "birthday" : { "month" : 1, "day" : 4, "year" : 2020 } }
+{ "_id" : ObjectId("61011ba81d5059b97dca24cf"), "name" : "Lina", "home_state" : "Berlin", "lucky_number" : 8, "birthday" : { "month" : 8, "day" : 9, "year" : 1992 } }
+> db.students.find("home_state":"Ramallah"
+... )
+uncaught exception: SyntaxError: missing ) after argument list :
+@(shell):1:29
+> db.students.find({"home_state":"Ramallah"})
+{ "_id" : ObjectId("610118009124d5688dae1d4e"), "name" : "Dara", "home_state" : "Ramallah", "lucky_number" : 10, "birthday" : { "month" : 3, "day" : 22, "year" : 2000 } }
+{ "_id" : ObjectId("61011a961d5059b97dca24cc"), "name" : "Hala", "home_state" : "Ramallah", "lucky_number" : 6, "birthday" : { "month" : 6, "day" : 28, "year" : 1994 } }
+{ "_id" : ObjectId("61011ae51d5059b97dca24cd"), "name" : "Malik", "home_state" : "Ramallah", "lucky_number" : 12, "birthday" : { "month" : 12, "day" : 21, "year" : 1991 } }
+> db.students.find({"home_state":"Ramallah" or "Jerusalem"})
+uncaught exception: SyntaxError: missing } after property list :
+@(shell):1:42
+> db.students.find({"home_state":"Ramallah", "home_state":"Jerusalem"})
+{ "_id" : ObjectId("61011b701d5059b97dca24ce"), "name" : "Muhammad", "home_state" : "Jerusalem", "lucky_number" : 4, "birthday" : { "month" : 1, "day" : 4, "year" : 2020 } }
+> db.students.find({"home_state":["Ramallah","Jerusalem"]})
+> db.students.find({$or: [{"home_state":"Ramallah"},{"home_state":"Jerusalem"}]})
+{ "_id" : ObjectId("610118009124d5688dae1d4e"), "name" : "Dara", "home_state" : "Ramallah", "lucky_number" : 10, "birthday" : { "month" : 3, "day" : 22, "year" : 2000 } }
+{ "_id" : ObjectId("61011a961d5059b97dca24cc"), "name" : "Hala", "home_state" : "Ramallah", "lucky_number" : 6, "birthday" : { "month" : 6, "day" : 28, "year" : 1994 } }
+{ "_id" : ObjectId("61011ae51d5059b97dca24cd"), "name" : "Malik", "home_state" : "Ramallah", "lucky_number" : 12, "birthday" : { "month" : 12, "day" : 21, "year" : 1991 } }
+{ "_id" : ObjectId("61011b701d5059b97dca24ce"), "name" : "Muhammad", "home_state" : "Jerusalem", "lucky_number" : 4, "birthday" : { "month" : 1, "day" : 4, "year" : 2020 } }
+> db.students.find({lucky_number: {$gt:3}})
+{ "_id" : ObjectId("610118009124d5688dae1d4e"), "name" : "Dara", "home_state" : "Ramallah", "lucky_number" : 10, "birthday" : { "month" : 3, "day" : 22, "year" : 2000 } }
+{ "_id" : ObjectId("61011a961d5059b97dca24cc"), "name" : "Hala", "home_state" : "Ramallah", "lucky_number" : 6, "birthday" : { "month" : 6, "day" : 28, "year" : 1994 } }
+{ "_id" : ObjectId("61011ae51d5059b97dca24cd"), "name" : "Malik", "home_state" : "Ramallah", "lucky_number" : 12, "birthday" : { "month" : 12, "day" : 21, "year" : 1991 } }
+{ "_id" : ObjectId("61011b701d5059b97dca24ce"), "name" : "Muhammad", "home_state" : "Jerusalem", "lucky_number" : 4, "birthday" : { "month" : 1, "day" : 4, "year" : 2020 } }
+{ "_id" : ObjectId("61011ba81d5059b97dca24cf"), "name" : "Lina", "home_state" : "Berlin", "lucky_number" : 8, "birthday" : { "month" : 8, "day" : 9, "year" : 1992 } }
+> db.students.find(lucky_number{$lte:10}}).pretty()
+uncaught exception: SyntaxError: missing ) after argument list :
+@(shell):1:29
+> db.students.find({lucky_number: {$lte:10}}).pretty()
+{
+        "_id" : ObjectId("610118009124d5688dae1d4e"),
+        "name" : "Dara",
+        "home_state" : "Ramallah",
+        "lucky_number" : 10,
+        "birthday" : {
+                "month" : 3,
+                "day" : 22,
+                "year" : 2000
+        }
+}
+{
+        "_id" : ObjectId("61011a961d5059b97dca24cc"),
+        "name" : "Hala",
+        "home_state" : "Ramallah",
+        "lucky_number" : 6,
+        "birthday" : {
+                "month" : 6,
+                "day" : 28,
+                "year" : 1994
+        }
+}
+{
+        "_id" : ObjectId("61011b701d5059b97dca24ce"),
+        "name" : "Muhammad",
+        "home_state" : "Jerusalem",
+        "lucky_number" : 4,
+        "birthday" : {
+                "month" : 1,
+                "day" : 4,
+                "year" : 2020
+        }
+}
+{
+        "_id" : ObjectId("61011ba81d5059b97dca24cf"),
+        "name" : "Lina",
+        "home_state" : "Berlin",
+        "lucky_number" : 8,
+        "birthday" : {
+                "month" : 8,
+                "day" : 9,
+                "year" : 1992
+        }
+}
+> db.students.find({lucky_number: {$gt:1 , $lt:9}}).pretty()
+{
+        "_id" : ObjectId("61011a961d5059b97dca24cc"),
+        "name" : "Hala",
+        "home_state" : "Ramallah",
+        "lucky_number" : 6,
+        "birthday" : {
+                "month" : 6,
+                "day" : 28,
+                "year" : 1994
+        }
+}
+{
+        "_id" : ObjectId("61011b701d5059b97dca24ce"),
+        "name" : "Muhammad",
+        "home_state" : "Jerusalem",
+        "lucky_number" : 4,
+        "birthday" : {
+                "month" : 1,
+                "day" : 4,
+                "year" : 2020
+        }
+}
+{
+        "_id" : ObjectId("61011ba81d5059b97dca24cf"),
+        "name" : "Lina",
+        "home_state" : "Berlin",
+        "lucky_number" : 8,
+        "birthday" : {
+                "month" : 8,
+                "day" : 9,
+                "year" : 1992
+        }
+}
+>
+
