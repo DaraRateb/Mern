@@ -185,5 +185,137 @@ uncaught exception: SyntaxError: missing ) after argument list :
                 "year" : 1992
         }
 }
+>db.students.updateMany({},{$set: {interests:["coding","brunch","mongoDB"]}})
+
+
+Microsoft Windows [Version 10.0.19042.1110]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Program Files\MongoDB\Server\5.0\bin>show dbs
+'show' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Program Files\MongoDB\Server\5.0\bin>mongo.exe
+MongoDB shell version v5.0.1
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("aa731622-3925-43f3-9747-9b24d52f8ed4") }
+MongoDB server version: 5.0.1
+================
+Warning: the "mongo" shell has been superseded by "mongosh",
+which delivers improved usability and compatibility.The "mongo" shell has been deprecated and will be removed in
+an upcoming release.
+We recommend you begin using "mongosh".
+For installation instructions, see
+https://docs.mongodb.com/mongodb-shell/install/
+================
+---
+The server generated these startup warnings when booting:
+        2021-07-28T00:05:34.013+03:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+---
+---
+        Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+        metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+        The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+        and anyone you share the URL with. MongoDB may use this information to make product
+        improvements and to suggest MongoDB products and deployment options to you.
+
+        To enable free monitoring, run the following command: db.enableFreeMonitoring()
+        To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+> show dbs
+admin        0.000GB
+config       0.000GB
+jokes        0.000GB
+local        0.000GB
+my_first_db  0.000GB
+productsdb   0.000GB
+> use my_first_db
+switched to db my_first_db
+> db.students.find()
+{ "_id" : ObjectId("610118009124d5688dae1d4e"), "name" : "Dara", "home_state" : "Ramallah", "lucky_number" : 10, "birthday" : { "month" : 3, "day" : 22, "year" : 2000 }, "interests" : [ "coding", "brunch", "mongoDB" ] }
+{ "_id" : ObjectId("61011a961d5059b97dca24cc"), "name" : "Hala", "home_state" : "Ramallah", "lucky_number" : 6, "birthday" : { "month" : 6, "day" : 28, "year" : 1994 }, "interests" : [ "coding", "brunch", "mongoDB" ] }
+{ "_id" : ObjectId("61011ae51d5059b97dca24cd"), "name" : "Malik", "home_state" : "Ramallah", "lucky_number" : 12, "birthday" : { "month" : 12, "day" : 21, "year" : 1991 }, "interests" : [ "coding", "brunch", "mongoDB" ] }
+{ "_id" : ObjectId("61011b701d5059b97dca24ce"), "name" : "Muhammad", "home_state" : "Jerusalem", "lucky_number" : 4, "birthday" : { "month" : 1, "day" : 4, "year" : 2020 }, "interests" : [ "coding", "brunch", "mongoDB" ] }
+{ "_id" : ObjectId("61011ba81d5059b97dca24cf"), "name" : "Lina", "home_state" : "Berlin", "lucky_number" : 8, "birthday" : { "month" : 8, "day" : 9, "year" : 1992 }, "interests" : [ "coding", "brunch", "mongoDB" ] }
+> db.students.update({_id:ObjectId("61011a961d5059b97dca24cc"))},{$addToSet:{interests:"sleeping"}])
+uncaught exception: SyntaxError: missing } after property list :
+@(shell):1:60
+> db.students.update({_id:ObjectId("61011b701d5059b97dca24ce")},{$addToSet:{interests:"dancing"}])
+uncaught exception: SyntaxError: missing } after property list :
+@(shell):1:94
+> db.students.update({name:"Lina"},{$push:{interests:"photography"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find()
+{ "_id" : ObjectId("610118009124d5688dae1d4e"), "name" : "Dara", "home_state" : "Ramallah", "lucky_number" : 10, "birthday" : { "month" : 3, "day" : 22, "year" : 2000 }, "interests" : [ "coding", "brunch", "mongoDB" ] }
+{ "_id" : ObjectId("61011a961d5059b97dca24cc"), "name" : "Hala", "home_state" : "Ramallah", "lucky_number" : 6, "birthday" : { "month" : 6, "day" : 28, "year" : 1994 }, "interests" : [ "coding", "brunch", "mongoDB" ] }
+{ "_id" : ObjectId("61011ae51d5059b97dca24cd"), "name" : "Malik", "home_state" : "Ramallah", "lucky_number" : 12, "birthday" : { "month" : 12, "day" : 21, "year" : 1991 }, "interests" : [ "coding", "brunch", "mongoDB" ] }
+{ "_id" : ObjectId("61011b701d5059b97dca24ce"), "name" : "Muhammad", "home_state" : "Jerusalem", "lucky_number" : 4, "birthday" : { "month" : 1, "day" : 4, "year" : 2020 }, "interests" : [ "coding", "brunch", "mongoDB" ] }
+{ "_id" : ObjectId("61011ba81d5059b97dca24cf"), "name" : "Lina", "home_state" : "Berlin", "lucky_number" : 8, "birthday" : { "month" : 8, "day" : 9, "year" : 1992 }, "interests" : [ "coding", "brunch", "mongoDB", "photography" ] }
+> db.students.update({name:"Malik"},{$push:{interests:"taxes"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.update({name:"Malik"},{$pull:{interests:"taxes"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.remove({home_state:"Berlin"})
+WriteResult({ "nRemoved" : 1 })
+> db.students.remove({name:"Hala"})
+WriteResult({ "nRemoved" : 1 })
+> db.students.find()
+{ "_id" : ObjectId("610118009124d5688dae1d4e"), "name" : "Dara", "home_state" : "Ramallah", "lucky_number" : 10, "birthday" : { "month" : 3, "day" : 22, "year" : 2000 }, "interests" : [ "coding", "brunch", "mongoDB" ] }
+{ "_id" : ObjectId("61011ae51d5059b97dca24cd"), "name" : "Malik", "home_state" : "Ramallah", "lucky_number" : 12, "birthday" : { "month" : 12, "day" : 21, "year" : 1991 }, "interests" : [ "coding", "brunch", "mongoDB" ] }
+{ "_id" : ObjectId("61011b701d5059b97dca24ce"), "name" : "Muhammad", "home_state" : "Jerusalem", "lucky_number" : 4, "birthday" : { "month" : 1, "day" : 4, "year" : 2020 }, "interests" : [ "coding", "brunch", "mongoDB" ] }
+>  db.students.remove({lucky_number:{$gt: 5}})
+WriteResult({ "nRemoved" : 2 })
+> db.students.deleteOne({ "$lt": 4 })
+WriteError({
+        "index" : 0,
+        "code" : 2,
+        "errmsg" : "unknown top level operator: $lt. If you have a field name that starts with a '$' symbol, consider using $getField or $setField.",
+        "op" : {
+                "q" : {
+                        "$lt" : 4
+                },
+                "limit" : 1
+        }
+}) :
+WriteError({
+        "index" : 0,
+        "code" : 2,
+        "errmsg" : "unknown top level operator: $lt. If you have a field name that starts with a '$' symbol, consider using $getField or $setField.",
+        "op" : {
+                "q" : {
+                        "$lt" : 4
+                },
+                "limit" : 1
+        }
+})
+WriteError@src/mongo/shell/bulk_api.js:465:48
+mergeBatchResults@src/mongo/shell/bulk_api.js:871:49
+executeBatch@src/mongo/shell/bulk_api.js:940:13
+Bulk/this.execute@src/mongo/shell/bulk_api.js:1182:21
+DBCollection.prototype.deleteOne@src/mongo/shell/crud_api.js:375:17
+@(shell):1:1
+> db.students.find()
+{ "_id" : ObjectId("61011b701d5059b97dca24ce"), "name" : "Muhammad", "home_state" : "Jerusalem", "lucky_number" : 4, "birthday" : { "month" : 1, "day" : 4, "year" : 2020 }, "interests" : [ "coding", "brunch", "mongoDB" ] }
+> db.students.updateMany({},{$set: {number_of_belts:0}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.students.update({home_state:"Jerusalem"}, {$inc: {number_of_belts:1}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.update({},{$rename:{"number_of_belts":"belts_earned"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find()
+{ "_id" : ObjectId("61011b701d5059b97dca24ce"), "name" : "Muhammad", "home_state" : "Jerusalem", "lucky_number" : 4, "birthday" : { "month" : 1, "day" : 4, "year" : 2020 }, "interests" : [ "coding", "brunch", "mongoDB" ], "belts_earned" : 1 }
+> db.students.update({},{$unset:{lucky_number: "" }})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
 >
+> db.students.show
+my_first_db.students.show
+> db.students.find()
+{ "_id" : ObjectId("61011b701d5059b97dca24ce"), "name" : "Muhammad", "home_state" : "Jerusalem", "birthday" : { "month" : 1, "day" : 4, "year" : 2020 }, "interests" : [ "coding", "brunch", "mongoDB" ], "belts_earned" : 1 }
+> db.students.update({ }, { $currentDate: { created_on: { $type: "date" }}} )
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find()
+{ "_id" : ObjectId("61011b701d5059b97dca24ce"), "name" : "Muhammad", "home_state" : "Jerusalem", "birthday" : { "month" : 1, "day" : 4, "year" : 2020 }, "interests" : [ "coding", "brunch", "mongoDB" ], "belts_earned" : 1, "created_on" : ISODate("2021-08-01T18:37:10.864Z") }
+>
+
 
