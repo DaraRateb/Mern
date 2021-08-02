@@ -15,13 +15,16 @@ const Main =() => {
         });
 
     }, []);
+
+    const removeFromDom = productId => {
+        setProducts(products.filter(products => products._id !== productId));
+    }
     return (
         <div>
             <h2>Message from the backend: {message}</h2>
             <ProductForm/>
             <hr/>
-            <h2>all</h2>
-            {loaded && <ProductList products={products}/>}
+            {loaded && <ProductList products={products} removeFromDom={removeFromDom}/>}
 
         </div>
     )
