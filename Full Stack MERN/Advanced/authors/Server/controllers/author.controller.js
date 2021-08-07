@@ -8,7 +8,7 @@ module.exports.findAllAuthors = (req, res) => {
  
 module.exports.findOneSingleAuthor = (req, res) => {
     Author.findOne({ _id: req.params.id })
-        .then(oneSingleAuthor => res.json({ oneSingleAuthor }))
+        .then(oneSingleAuthor => res.json( oneSingleAuthor ))
         .catch(err => res.json({ message: 'Something went wrong', error: err }));
 }
 

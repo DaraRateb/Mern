@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios';
 
 const AuthorForm = (props) => {
-    const {errors, name1, successfulfunction, id}=props;
+    const {errors, name1, successfulfunction}=props;
     const [name, setName]=useState(name1);
 
 const handleSubmit =(e)=>{
@@ -23,7 +23,7 @@ const handleSubmit =(e)=>{
         }
             <p>
                 <label>Name</label><br/>
-                <input type="text" onChange={(e)=>setName(e.target.value)} />
+                <input type="text" onChange={(e)=>setName(e.target.value)} value={name}/>
             </p>
             <input type="submit"/>
             

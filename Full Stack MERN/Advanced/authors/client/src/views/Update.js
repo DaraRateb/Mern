@@ -4,9 +4,20 @@ import { Link, navigate } from '@reach/router';
 import AuthorForm from '../components/AuthorForm'
 
 
-const Update = () => {
-    const [Name, setName] = useState(""); 
+const Update = (props) => {
+    const {id}=props;
+    const [author, setAuthor] = useState();
+    const [loaded, setLoaded] = useState(false);
     const [Errors, setErrors] =useState([]);
+
+    useEffect(() => {
+        axios.get('http://localhost:8000/api/authors/' + id)
+            .then(res => {
+                setAuthor(res.data);
+                console.log(res.data);
+                setLoaded(true);
+            })
+    }, [])
 
     const onSubmitHandler = (name) => {
         axios.put('http://localhost:8000/api/authors/'+id, 
@@ -26,8 +37,10 @@ const Update = () => {
     return (
         <div>
             <h1>Favorite Authors</h1>
-        <AuthorForm errors={Errors} name1="" successfulfunction={onSubmitHandler} />
-    </div>
+            {loaded && (
+        <AuthorForm errors={Errors} name1={author.name} successfulfunction={onSubmitHandler} />
+            )}
+        </div>
     )
 }
 
