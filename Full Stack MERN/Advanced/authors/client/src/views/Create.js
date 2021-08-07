@@ -2,6 +2,7 @@ import React,{useState} from 'react'
 import axios from 'axios';
 import { Link, navigate } from '@reach/router';
 import AuthorForm from '../components/AuthorForm'
+import CancelButton from '../components/CancelButton';
 
 const Create = () => {
     const [Name, setName] = useState(""); 
@@ -25,7 +26,9 @@ const Create = () => {
         }
     return (
         <div>
+            <Link to="/">Home</Link>
             <AuthorForm errors={Errors} name1="" successfulfunction={onSubmitHandler}  />
+            <CancelButton />
         </div>
     )
 }

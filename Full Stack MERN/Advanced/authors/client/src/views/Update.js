@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react'
 import axios from 'axios';
 import { Link, navigate } from '@reach/router';
 import AuthorForm from '../components/AuthorForm'
+import CancelButton from '../components/CancelButton';
 
 
 const Update = (props) => {
@@ -37,9 +38,11 @@ const Update = (props) => {
     return (
         <div>
             <h1>Favorite Authors</h1>
+            <Link to="/">Home</Link>
             {loaded && (
         <AuthorForm errors={Errors} name1={author.name} successfulfunction={onSubmitHandler} />
             )}
+            <CancelButton />
         </div>
     )
 }
