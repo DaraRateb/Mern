@@ -1,0 +1,11 @@
+.main{
+    padding:10px;
+    border: 1px solid black;
+}
+ul{
+    list-style-type: none;
+    display:flex;
+}
+ul li{
+    padding-left:10px;
+}
